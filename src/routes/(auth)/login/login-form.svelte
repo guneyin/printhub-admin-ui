@@ -4,6 +4,7 @@
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
     import { Button } from "$lib/components/ui/button/index.js";
+    import { goto } from "$app/navigation";
 
     import { formSchema, type FormSchema } from "./schema";
     import {
@@ -12,22 +13,18 @@
         superForm,
     } from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
-    import { UserRole } from '@/types';
+	import toast from "svelte-french-toast";
 
     export let data: SuperValidated<Infer<FormSchema>>;
 
     const form = superForm(data, {
         validators: zodClient(formSchema),
+        onError: ( ({ result }) => toast.error(result.error.message)),
     });
 
     const { form: formData, enhance } = form;
 
-    let email = 'admin1@ph.com';
-    let password = 'r8A0jYoSlU';
-    let role = UserRole.admin;
-
-    formData.set({email, password, role});
-    let errMsg = '';
+    let loading = false;
 </script>
 
 <form method="POST" use:enhance>
@@ -47,11 +44,11 @@
                 <Form.Control let:attrs>
                     <div class="flex items-center">
                         <Form.Label>Password</Form.Label>
-                        <a href="##" class="ml-auto inline-block text-sm underline">
+                        <a href="/recover" class="ml-auto inline-block text-sm underline">
                             Forgot your password?
                         </a>
                     </div>
-                    <Input {...attrs} bind:value={$formData.password} />
+                    <Input type="password" {...attrs} bind:value={$formData.password} />
                 </Form.Control>
                 <Form.FieldErrors />
             </Form.Field>
@@ -63,11 +60,11 @@
             </Form.Control>
         </Form.Field>
 
-        <Button type="submit" class="w-full">Login</Button>
-        <Button variant="outline" class="w-full">Login with Google</Button>
+        <Button type="submit" disabled={loading} class="w-full">Login</Button>
+        <Button variant="outline" class="w-full" disabled={loading} on:click={() => goto("/oauth/google?role=admin")}>Login with Google</Button>
     </div>
     <div class="mt-4 text-center text-sm">
         Don&apos;t have an account?
-        <a href="##" class="underline"> Sign up </a>
+        <a href="/register" class="underline"> Sign up </a>
     </div>
 </form>

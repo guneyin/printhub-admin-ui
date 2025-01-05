@@ -11,10 +11,7 @@
     import {goto} from "$app/navigation";
 
     async function logout() {
-      const url = '/logout'
-      const res = await fetch(url, {
-        method: 'GET'
-      })
+      const res = await fetch('/logout')
       if (res.ok) {
         await goto('/login')
       } else console.error(`Logout not successful: ${res.statusText} (${res.status})`)

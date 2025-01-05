@@ -1,13 +1,11 @@
 import type { PageServerLoad } from './$types';
-import client from '@/api/axios';
-import { fail } from '@sveltejs/kit';
-import type { User } from '@/types';
+import { me } from '@/api/user';
+import { error } from '@sveltejs/kit';
+import type { ApiError } from '@/error';
 
-export const load: PageServerLoad = async ({ cookies }) => {
-	const response = await client(cookies).get(`/user/me`);
-	if (response.status !== 200) {
-		fail(response.status, {});
-	}
+export const load: PageServerLoad = async ({ locals }) => {
+	const user = await me(locals)
+		.catch((e:ApiError) => error(e.status, e.error));
 
-	return { user: response.data as User };
+	return { user };
 }

@@ -2,15 +2,25 @@ import type { PageServerLoad, Actions } from "./$types";
 import { superValidate } from "sveltekit-superforms";
 import { formSchema } from "./schema";
 import { zod } from "sveltekit-superforms/adapters";
-import { fail, redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
-import { Cookie } from 'tough-cookie';
 import { login } from '@/api/auth';
 import { UserRole } from '@/types';
+import { cookieParser } from '@/cookie';
+import type { ApiError } from "@/error";
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ url }) => {
+    let email = url.searchParams.get('email') as string;
+    let password = 'r8A0jYoSlU';
+    let role = UserRole.admin;
+
+    if (email===null) { email = 'admin1_@ph.com'}
+    let form = await superValidate(zod(formSchema));
+
+    form.data = { email, password, role }
+
     return {
-        form: await superValidate(zod(formSchema)),
+        form,
     };
 };
 
@@ -21,26 +31,12 @@ export const actions: Actions = {
         const password = form.get('password') as string;
         const role = form.get('role') as UserRole;
 
-        let setCookieHeader = '';
+        let setCookie = '';
         await login(email, password, role)
-          .then(response => setCookieHeader = response)
-          .catch(error => fail(error));
+          .then(response => setCookie = response)
+          .catch((e:ApiError) => error(e.status, e.error));
 
-        if (setCookieHeader) {
-            for (const el of setCookieHeader) {
-                const resCookie = Cookie.parse(el);
-                console.log(resCookie);
-                if (resCookie) {
-                    cookies.set(resCookie.key, resCookie.value, {
-                        httpOnly: true,
-                        sameSite: resCookie.sameSite === 'strict',
-                        path: resCookie.path as string,
-                        maxAge: resCookie?.maxAge as number,
-                        secure: resCookie?.secure
-                    });
-                }
-            }
-        }
+        cookieParser(setCookie, cookies);
 
         return redirect(303, '/');
     }
