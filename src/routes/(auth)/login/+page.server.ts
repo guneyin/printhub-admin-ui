@@ -2,12 +2,12 @@ import type { PageServerLoad, Actions } from "./$types";
 import { superValidate } from "sveltekit-superforms";
 import { formSchema } from "./schema";
 import { zod } from "sveltekit-superforms/adapters";
-import { error, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 
 import { login } from '@/api/auth';
 import { UserRole } from '@/types';
 import { cookieParser } from '@/cookie';
-import type { ApiError } from "@/error";
+import { customerror } from "@/error";
 
 export const load: PageServerLoad = async ({ url }) => {
     let email = url.searchParams.get('email') as string;
@@ -33,8 +33,8 @@ export const actions: Actions = {
 
         let setCookie = '';
         await login(email, password, role)
-          .then(response => setCookie = response)
-          .catch((e:ApiError) => error(e.status, e.error));
+          .then(r => setCookie = r)
+          .catch(e => customerror('invalid credentials'));
 
         cookieParser(setCookie, cookies);
 

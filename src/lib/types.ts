@@ -4,14 +4,14 @@ export type Session = {
     user?: User;
 };
 
-export type User = {
-    active?: boolean;
-    avatarURL?: string;
-    email?: string;
-    name?: string;
-    password?: string;
-    role?: UserRole;
-    uuid?: string;
+export interface User {
+    active: boolean;
+    avatarURL: string;
+    email: string;
+    name: string;
+    password: string;
+    role: UserRole;
+    uuid: string;
 };
 
 export enum UserRole {

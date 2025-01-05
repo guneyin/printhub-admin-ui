@@ -4,17 +4,17 @@ import { registerSchema } from "./schema";
 import { zod } from "sveltekit-superforms/adapters";
 
 import { register, validateToken } from '@/api/auth';
-import { UserRole } from '@/types';
-import { error } from "@sveltejs/kit";
-import type { ApiError } from "@/error";
+import { UserRole, type User } from '@/types';
+import { apierror } from "@/error";
 
 export const load: PageServerLoad = async ({ url }) => {
     let token = url.searchParams.get('token');
     let registerForm = await superValidate(zod(registerSchema));
 
     if (token) {
-        const user = await validateToken(token)
-            .catch((e:ApiError) => error(e.status, e.error));
+        const res = await validateToken(token)
+            .catch(e => apierror(e));
+        const user = res as User;
 
         registerForm.data.email = user.email as string;
         registerForm.data.password = '123456';
@@ -37,7 +37,7 @@ export const actions: Actions = {
         let statusText = 'OK';
 
         await register(email, password, UserRole.client)
-            .catch((e:ApiError) => error(e.status, e.error));
+            .catch(e => apierror(e));
 
         return { form, success: true, status, statusText };
     },

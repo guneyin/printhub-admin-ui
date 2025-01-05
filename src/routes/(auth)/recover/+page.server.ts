@@ -4,9 +4,8 @@ import { recoverSchema, passwordSchema } from "./schema";
 import { zod } from "sveltekit-superforms/adapters";
 
 import { recoverPassword, validateToken, changePassword } from '@/api/auth';
-import { UserRole } from '@/types';
-import { error } from "@sveltejs/kit";
-import type { ApiError } from "@/error";
+import { type User, UserRole } from '@/types';
+import { apierror } from "@/error";
 
 export const load: PageServerLoad = async ({ url }) => {
     let token = url.searchParams.get('token');
@@ -15,14 +14,15 @@ export const load: PageServerLoad = async ({ url }) => {
     let showPasswordForm = false;
 
     if (token) {
-        const user = await validateToken(token)
-            .catch((e:ApiError) => error(e.status, e.error));
-
-        passwordForm.data.email = user.email as string;
-        passwordForm.data.token = token;
-        passwordForm.data.password = '123456';
-        passwordForm.data.passwordConfirm = '123456';
-        showPasswordForm = true
+            const res = await validateToken(token)
+                .catch(e => apierror(e))
+            const user = res as User;
+            
+            passwordForm.data.email = user.email;
+            passwordForm.data.token = token;
+            passwordForm.data.password = '123456';
+            passwordForm.data.passwordConfirm = '123456';
+            showPasswordForm = true            
     }
 
     return {
@@ -43,7 +43,7 @@ export const actions: Actions = {
         let statusText = 'OK';
 
         await recoverPassword(email, role)
-        .catch((e:ApiError) => error(e.status, e.error));
+            .catch(e => apierror(e));
 
         return { form, success: true, status, statusText };
     },
@@ -58,7 +58,7 @@ export const actions: Actions = {
         let statusText = 'OK';
 
         await changePassword(token, password)
-        .catch((e:ApiError) => error(e.status, e.error));
+            .catch(e => apierror(e));
 
         return { form, success: true, status, statusText };
     }

@@ -12,11 +12,13 @@
         superForm,
     } from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
+	import toast from "svelte-french-toast";
 
     export let data: SuperValidated<Infer<RegisterSchema>>;
 
     const form = superForm(data, {
         validators: zodClient(registerSchema),
+        onError: ( ({ result }) => toast.error(result.error.message)),
     });
 
     const { form: formData, enhance } = form;

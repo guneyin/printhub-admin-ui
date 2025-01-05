@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 import { callback } from '@/api/auth';
 import type { UserRole } from '@/types';
 import { cookieParser } from '@/cookie';
-import type { ApiError } from '@/error';
+import { apierror } from '@/error';
 
 export const load: PageServerLoad = async ({ params, url, cookies }) => {
   const role = url.searchParams.get('state') as UserRole;
@@ -11,8 +11,8 @@ export const load: PageServerLoad = async ({ params, url, cookies }) => {
 
   let setCookieHeader = '';
   await callback(params.provider, role, code)
-    .then(response => setCookieHeader = response)
-    .catch((e:ApiError) => error(e.status, e.error));
+    .then(r => setCookieHeader = r)
+    .catch(e => apierror(e));
 
   cookieParser(setCookieHeader, cookies);
 

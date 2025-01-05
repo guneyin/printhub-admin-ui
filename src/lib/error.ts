@@ -1,14 +1,15 @@
 import type { AxiosError } from "axios";
+import { error } from "@sveltejs/kit"
 
-type Error = { error: string };
-export type ApiError = { status: number, error: string };
+type apiError = { error: string };
 
-export const apierror = (e: AxiosError): ApiError => {
+export const apierror = (e: AxiosError): typeof error => {
     let status = e.response?.status ? e.response?.status : 500;
-    let error = e.response?.data ? (e.response?.data as Error).error : e.message;
-    throw { status, error };
+    let message = e.response?.data ? (<apiError>e.response?.data).error : e.message;
+
+    return error(status, { message })
 }
 
-export const customerror = (error: string): ApiError => {
-    throw { status: 500, error}
+export const customerror = (message: string): typeof error => {
+    return error(500, { message })
 }
