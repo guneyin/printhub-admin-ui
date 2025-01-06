@@ -3,7 +3,7 @@ import { superValidate } from "sveltekit-superforms";
 import { registerSchema } from "./schema";
 import { zod } from "sveltekit-superforms/adapters";
 
-import { register, validateToken } from '@/api/auth';
+import { register, verifyToken } from '@/api/auth';
 import { UserRole, type User } from '@/types';
 import { apierror } from "@/error";
 
@@ -12,7 +12,7 @@ export const load: PageServerLoad = async ({ url }) => {
     let registerForm = await superValidate(zod(registerSchema));
 
     if (token) {
-        const res = await validateToken(token)
+        const res = await verifyToken(token)
             .catch(e => apierror(e));
         const user = res as User;
 

@@ -37,14 +37,20 @@ export const recoverPassword = async (email: string, role: UserRole): Promise<vo
 		.catch(e => Promise.reject(e));
 }
 
-export const validateToken = async (token: string): Promise<User> => {
-	return await client().get<User>('auth/validate', { params: { token } })
+export const verifyToken = async (token: string): Promise<User> => {
+	return await client().get<User>('auth/verify', { params: { token } })
 		.then(r => Promise.resolve(r.data))
 		.catch(e => Promise.reject(e));
 }
 
 export const changePassword = async (token: string, password: string): Promise<void> => {
 	return await client().get('auth/change', { params: { token, password } })
+		.then(r => Promise.resolve(r.data))
+		.catch(e => Promise.reject(e));
+}
+
+export const validateUser = async (token: string): Promise<User> => {
+	return await client().get<User>('auth/validate', { params: { token } })
 		.then(r => Promise.resolve(r.data))
 		.catch(e => Promise.reject(e));
 }

@@ -11,13 +11,11 @@ import { customerror } from "@/error";
 
 export const load: PageServerLoad = async ({ url }) => {
     let email = url.searchParams.get('email') as string;
-    let password = 'r8A0jYoSlU';
     let role = UserRole.admin;
 
-    if (email===null) { email = 'admin1_@ph.com'}
     let form = await superValidate(zod(formSchema));
 
-    form.data = { email, password, role }
+    form.data = { email, password: '', role }
 
     return {
         form,

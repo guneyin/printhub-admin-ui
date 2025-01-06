@@ -24,7 +24,7 @@
 
 <Card.Root class="mx-auto max-w-sm w-[380px]">
     <Card.Header>
-      <Card.Title class="text-2xl">Recover Password</Card.Title>
+      <Card.Title class="text-2xl">Şifre yenileme</Card.Title>
     </Card.Header>
     <Card.Content>
         <form method="POST" action="?/recover" use:enhance>
@@ -32,7 +32,7 @@
                 <div class="grid gap-2">
                     <Form.Field {form} name="email">
                         <Form.Control let:attrs>
-                            <Form.Label>Email</Form.Label>
+                            <Form.Label>E-posta</Form.Label>
                             <Input {...attrs} bind:value={$formData.email} />
                         </Form.Control>
                         <Form.FieldErrors />
@@ -45,7 +45,7 @@
                     </Form.Control>
                 </Form.Field>
 
-                <Button type="submit" class="w-full">Send</Button>
+                <Button type="submit" class="w-full">Devam et</Button>
             </div>
         </form>
     </Card.Content>

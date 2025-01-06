@@ -4,8 +4,8 @@
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
     import { Button } from "$lib/components/ui/button/index.js";
+    import toast from "svelte-french-toast";
     import { goto } from "$app/navigation";
-
     import { formSchema, type FormSchema } from "./schema";
     import {
         type SuperValidated,
@@ -13,7 +13,7 @@
         superForm,
     } from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
-	import toast from "svelte-french-toast";
+    import { UserRole } from '@/types';
 
     export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -23,8 +23,6 @@
     });
 
     const { form: formData, enhance } = form;
-
-    let loading = false;
 </script>
 
 <form method="POST" use:enhance>
@@ -32,7 +30,7 @@
         <div class="grid gap-2">
             <Form.Field {form} name="email">
                 <Form.Control let:attrs>
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label>E-posta</Form.Label>
                     <Input {...attrs} bind:value={$formData.email} />
                 </Form.Control>
                 <Form.FieldErrors />
@@ -43,10 +41,8 @@
             <Form.Field {form} name="password">
                 <Form.Control let:attrs>
                     <div class="flex items-center">
-                        <Form.Label>Password</Form.Label>
-                        <a href="/recover" class="ml-auto inline-block text-sm underline">
-                            Forgot your password?
-                        </a>
+                        <Form.Label>Şifre</Form.Label>
+                        <a href="/recover" class="ml-auto inline-block text-sm underline">Şifremi unuttum</a>
                     </div>
                     <Input type="password" {...attrs} bind:value={$formData.password} />
                 </Form.Control>
@@ -60,11 +56,14 @@
             </Form.Control>
         </Form.Field>
 
-        <Button type="submit" disabled={loading} class="w-full">Login</Button>
-        <Button variant="outline" class="w-full" disabled={loading} on:click={() => goto("/oauth/google?role=admin")}>Login with Google</Button>
+        <Button type="submit" class="w-full">Giriş yap</Button>
+        <Button variant="outline" class="w-full" on:click={() => goto("/oauth/google?role=admin")}>Google ile giriş yap</Button>
     </div>
+
+    {#if $formData.role === UserRole.client}
     <div class="mt-4 text-center text-sm">
         Don&apos;t have an account?
         <a href="/register" class="underline"> Sign up </a>
     </div>
+    {/if}
 </form>

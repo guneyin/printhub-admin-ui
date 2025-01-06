@@ -22,13 +22,11 @@
     });
 
     const { form: formData, enhance } = form;
-
-    formData.set({email: 'guneyin@ya.ru', password: '123456', passwordConfirm: '123456'})
 </script>
 
 <Card.Root class="mx-auto max-w-sm w-[380px]">
     <Card.Header>
-      <Card.Title class="text-2xl">Register</Card.Title>
+      <Card.Title class="text-2xl">Üye ol</Card.Title>
     </Card.Header>
     <Card.Content>
         <form method="POST" use:enhance>
@@ -36,7 +34,7 @@
                 <div class="grid gap-2">
                     <Form.Field {form} name="email">
                         <Form.Control let:attrs>
-                            <Form.Label>Email</Form.Label>
+                            <Form.Label>E-posta</Form.Label>
                             <Input {...attrs} bind:value={$formData.email} />
                         </Form.Control>
                         <Form.FieldErrors />
@@ -46,7 +44,7 @@
                 <div class="grid gap-2">
                     <Form.Field {form} name="password">
                         <Form.Control let:attrs>
-                            <Form.Label>Password</Form.Label>
+                            <Form.Label>Şifre</Form.Label>
                             <Input type="password" {...attrs} bind:value={$formData.password} />
                         </Form.Control>
                         <Form.FieldErrors />
@@ -56,14 +54,14 @@
                 <div class="grid gap-2">
                     <Form.Field {form} name="passwordConfirm">
                         <Form.Control let:attrs>
-                            <Form.Label>Confirm Password</Form.Label>
+                            <Form.Label>Şifre tekrar</Form.Label>
                             <Input type="password" {...attrs} bind:value={$formData.passwordConfirm} />
                         </Form.Control>
                         <Form.FieldErrors />
                     </Form.Field>
                 </div>
 
-                <Button type="submit" class="w-full">Send</Button>
+                <Button type="submit" class="w-full">Üye ol</Button>
             </div>
         </form>
     </Card.Content>

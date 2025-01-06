@@ -24,7 +24,7 @@
 
 <Card.Root class="mx-auto max-w-sm w-[380px]">
     <Card.Header>
-      <Card.Title class="text-2xl">Change Password</Card.Title>
+      <Card.Title class="text-2xl">Şifre yenileme</Card.Title>
     </Card.Header>
     <Card.Content>
         <form method="POST" action="?/change" use:enhance>
@@ -32,7 +32,7 @@
                 <div class="grid gap-2">
                     <Form.Field {form} name="email">
                         <Form.Control let:attrs>
-                            <Form.Label>Email</Form.Label>
+                            <Form.Label>E-posta</Form.Label>
                             <Input disabled {...attrs} bind:value={$formData.email} />
                         </Form.Control>
                         <Form.FieldErrors />
@@ -42,7 +42,7 @@
                 <div class="grid gap-2">
                     <Form.Field {form} name="password">
                         <Form.Control let:attrs>
-                            <Form.Label>Password</Form.Label>
+                            <Form.Label>Şifre</Form.Label>
                             <Input type="password" {...attrs} bind:value={$formData.password} />
                         </Form.Control>
                         <Form.FieldErrors />
@@ -52,7 +52,7 @@
                 <div class="grid gap-2">
                     <Form.Field {form} name="passwordConfirm">
                         <Form.Control let:attrs>
-                            <Form.Label>Confirm Password</Form.Label>
+                            <Form.Label>Şifre tekrar</Form.Label>
                             <Input type="password" {...attrs} bind:value={$formData.passwordConfirm} />
                         </Form.Control>
                         <Form.FieldErrors />
@@ -61,7 +61,7 @@
 
                 <Input type="hidden" name="token" bind:value={$formData.token} />
 
-                <Button type="submit" class="w-full">Send</Button>
+                <Button type="submit" class="w-full">Gönder</Button>
             </div>
         </form>
     </Card.Content>

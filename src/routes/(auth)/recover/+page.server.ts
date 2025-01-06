@@ -3,7 +3,7 @@ import { superValidate } from "sveltekit-superforms";
 import { recoverSchema, passwordSchema } from "./schema";
 import { zod } from "sveltekit-superforms/adapters";
 
-import { recoverPassword, validateToken, changePassword } from '@/api/auth';
+import { recoverPassword, verifyToken, changePassword } from '@/api/auth';
 import { type User, UserRole } from '@/types';
 import { apierror } from "@/error";
 
@@ -14,14 +14,12 @@ export const load: PageServerLoad = async ({ url }) => {
     let showPasswordForm = false;
 
     if (token) {
-            const res = await validateToken(token)
+            const res = await verifyToken(token)
                 .catch(e => apierror(e))
             const user = res as User;
             
             passwordForm.data.email = user.email;
             passwordForm.data.token = token;
-            passwordForm.data.password = '123456';
-            passwordForm.data.passwordConfirm = '123456';
             showPasswordForm = true            
     }
 
