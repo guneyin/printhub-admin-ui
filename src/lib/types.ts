@@ -1,17 +1,17 @@
 export type Session = {
-    id?: string;
-    provider?: string;
+    id: string;
+    provider: string;
     user?: User;
 };
 
 export interface User {
-    active: boolean;
-    avatarURL: string;
+    active?: boolean;
+    avatarURL?: string;
     email: string;
-    name: string;
-    password: string;
-    role: UserRole;
-    uuid: string;
+    name?: string;
+    password?: string;
+    role?: UserRole;
+    uuid?: string;
 };
 
 export enum UserRole {
@@ -23,9 +23,9 @@ export enum UserRole {
 export interface Tenant {
     uuid: string;
     email: string;
-    name: string;
-    address: string;
-    logo: string;
+    name?: string;
+    address?: string;
+    logo?: string;
 }
 
 export type TenantList = Tenant[];

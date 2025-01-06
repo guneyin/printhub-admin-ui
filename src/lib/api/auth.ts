@@ -21,13 +21,13 @@ export const logout = async (): Promise<void> => {
 
 export const oauth = async (provider: string, role: UserRole, callback: string): Promise<string> => {
 	return await client().get("auth/oauth/" + provider, { params: { role, callback } })
-		.then(r => Promise.resolve(r.data))
+		.then(r => Promise.resolve(r.headers.location as string))
 		.catch(e => Promise.reject(e));
 }
 
 export const callback = async (provider: string, role: UserRole, code: string): Promise<string> => {
 	return await client().get("auth/oauth/" + provider + "/complete", { params: { role, code } })
-		.then(r => Promise.resolve(r.data))
+		.then(r => Promise.resolve(r.headers['set-cookie'] as unknown as string))
 		.catch(e => Promise.reject(e));
 }
 
