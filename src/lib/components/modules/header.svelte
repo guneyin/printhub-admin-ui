@@ -9,15 +9,15 @@
     import { Input } from "$lib/components/ui/input/index.js";
     import * as Sheet from "$lib/components/ui/sheet/index.js";
     import {goto} from "$app/navigation";
+	import toast from "svelte-french-toast";
 
     async function logout() {
-      const url = '/logout'
-      const res = await fetch(url, {
-        method: 'GET'
-      })
+      const res = await fetch('/logout')
       if (res.ok) {
         await goto('/login')
-      } else console.error(`Logout not successful: ${res.statusText} (${res.status})`)
+      } else {
+        toast.error(res.statusText);
+      }
     }
 
     async function settings() {

@@ -1,18 +1,18 @@
 export type Session = {
-    id?: string;
-    provider?: string;
+    id: string;
+    provider: string;
     user?: User;
 };
 
-export type User = {
+export interface User {
     active?: boolean;
     avatarURL?: string;
-    email?: string;
+    email: string;
     name?: string;
     password?: string;
     role?: UserRole;
     uuid?: string;
-};
+}
 
 export enum UserRole {
     admin = 'admin',
@@ -20,12 +20,14 @@ export enum UserRole {
     client = 'client',
 }
 
+export const DefaultUserRole = UserRole.admin;
+
 export interface Tenant {
     uuid: string;
     email: string;
-    name: string;
-    address: string;
-    logo: string;
+    name?: string;
+    address?: string;
+    logo?: string;
 }
 
 export type TenantList = Tenant[];

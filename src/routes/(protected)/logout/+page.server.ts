@@ -1,15 +1,14 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { logout } from '@/api/auth';
+import { apierror } from '@/error';
 
 export const load: PageServerLoad = async ({ locals, cookies }) => {
     await logout()
-      .catch((error) => {
-          fail(error);
-      })
+      .catch(e => apierror(e));
 
     cookies.delete('session_id', {path: '/'});
-    locals.session = null;
+    locals.session_id = "";
 
     throw redirect(302, "/");
 }

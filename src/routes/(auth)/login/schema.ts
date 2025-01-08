@@ -3,8 +3,7 @@ import { UserRole } from '@/types';
 
 export const formSchema = z.object({
     email: z.string().email(),
-    password: z.string().min(6),
-    role: z.nativeEnum(UserRole)
+    password: z.string().min(6)
 });
 
 export type FormSchema = typeof formSchema;
