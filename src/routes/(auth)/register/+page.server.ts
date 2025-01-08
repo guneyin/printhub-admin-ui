@@ -36,7 +36,7 @@ export const actions: Actions = {
         let status = 200;
         let statusText = 'OK';
 
-        await register(email, password, UserRole.client)
+        await register(email, password)
             .catch(e => apierror(e));
 
         return { form, success: true, status, statusText };

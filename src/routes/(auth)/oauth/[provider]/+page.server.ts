@@ -1,14 +1,12 @@
 import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { oauth } from '@/api/auth';
-import type { UserRole } from '@/types';
 import { apierror } from '@/error';
 
 export const load: PageServerLoad = async ({ params, url }) => {
-	const role = url.searchParams.get('role') as UserRole;
 	const callback = url.origin + "/oauth/" + params.provider + "/callback";
 
-	const redirectUrl = await oauth(params.provider, role, callback)
+	const redirectUrl = await oauth(params.provider, callback)
 		.catch((e) => apierror(e));
 
 	if (!redirectUrl) {

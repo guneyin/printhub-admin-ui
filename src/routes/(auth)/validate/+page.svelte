@@ -6,7 +6,6 @@
 
 	let { data }: { data: PageData } = $props();
 	let user = data.user as User;
-	user.email = 'foo@bar.com';
 </script>
 
 <svelte:head>

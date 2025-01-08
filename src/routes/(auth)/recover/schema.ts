@@ -2,8 +2,7 @@ import { z } from "zod";
 import { UserRole } from '@/types';
 
 export const recoverSchema = z.object({
-    email: z.string().email(),
-    role: z.nativeEnum(UserRole)
+    email: z.string().email()
 }); 
 
 export const passwordSchema = z.object({

@@ -12,13 +12,15 @@ export interface User {
     password?: string;
     role?: UserRole;
     uuid?: string;
-};
+}
 
 export enum UserRole {
     admin = 'admin',
     tenant = 'tenant',
     client = 'client',
 }
+
+export const DefaultUserRole = UserRole.admin;
 
 export interface Tenant {
     uuid: string;

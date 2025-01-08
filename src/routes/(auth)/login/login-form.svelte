@@ -13,7 +13,6 @@
         superForm,
     } from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
-    import { UserRole } from '@/types';
 
     export let data: SuperValidated<Infer<FormSchema>>;
 
@@ -50,20 +49,7 @@
             </Form.Field>
         </div>
 
-        <Form.Field {form} name="role">
-            <Form.Control let:attrs>
-                <Input type="hidden" {...attrs} bind:value={$formData.role} />
-            </Form.Control>
-        </Form.Field>
-
         <Button type="submit" class="w-full">Giriş yap</Button>
-        <Button variant="outline" class="w-full" on:click={() => goto("/oauth/google?role=admin")}>Google ile giriş yap</Button>
+        <Button variant="outline" class="w-full" on:click={() => goto("/oauth/google")}>Google ile giriş yap</Button>
     </div>
-
-    {#if $formData.role === UserRole.client}
-    <div class="mt-4 text-center text-sm">
-        Don&apos;t have an account?
-        <a href="/register" class="underline"> Sign up </a>
-    </div>
-    {/if}
 </form>

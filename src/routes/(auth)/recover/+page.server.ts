@@ -34,13 +34,12 @@ export const actions: Actions = {
     recover: async ({ request }) => {
         const data = await request.formData();
         const email = data.get('email') as string;
-        const role = data.get('role') as UserRole;
         const form = await superValidate(request, zod(recoverSchema));
 
         let status = 200;
         let statusText = 'OK';
 
-        await recoverPassword(email, role)
+        await recoverPassword(email)
             .catch(e => apierror(e));
 
         return { form, success: true, status, statusText };

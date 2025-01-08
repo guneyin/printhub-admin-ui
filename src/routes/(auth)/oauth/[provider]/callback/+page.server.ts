@@ -6,11 +6,10 @@ import { cookieParser } from '@/cookie';
 import { apierror } from '@/error';
 
 export const load: PageServerLoad = async ({ params, url, cookies }) => {
-  const role = url.searchParams.get('state') as UserRole;
   const code = url.searchParams.get('code') as string;
 
   let setCookieHeader = '';
-  await callback(params.provider, role, code)
+  await callback(params.provider, code)
     .then(r => setCookieHeader = r)
     .catch(e => apierror(e));
 

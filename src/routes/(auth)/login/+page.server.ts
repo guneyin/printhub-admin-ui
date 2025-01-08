@@ -5,17 +5,15 @@ import { zod } from "sveltekit-superforms/adapters";
 import { redirect } from '@sveltejs/kit';
 
 import { login } from '@/api/auth';
-import { UserRole } from '@/types';
 import { cookieParser } from '@/cookie';
 import { customerror } from "@/error";
 
 export const load: PageServerLoad = async ({ url }) => {
     let email = url.searchParams.get('email') as string;
-    let role = UserRole.admin;
 
     let form = await superValidate(zod(formSchema));
 
-    form.data = { email, password: '', role }
+    form.data = { email, password: '' }
 
     return {
         form,
@@ -27,10 +25,9 @@ export const actions: Actions = {
         const form = await request.formData();
         const email = form.get('email') as string;
         const password = form.get('password') as string;
-        const role = form.get('role') as UserRole;
 
         let setCookie = '';
-        await login(email, password, role)
+        await login(email, password)
           .then(r => setCookie = r)
           .catch(e => customerror('invalid credentials'));
 
