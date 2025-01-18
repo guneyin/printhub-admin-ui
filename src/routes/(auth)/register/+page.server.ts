@@ -4,7 +4,7 @@ import { registerSchema } from "./schema";
 import { zod } from "sveltekit-superforms/adapters";
 
 import { register, verifyToken } from '@/api/auth';
-import { UserRole, type User } from '@/types';
+import { type User } from '@/types';
 import { apierror } from "@/error";
 
 export const load: PageServerLoad = async ({ url }) => {

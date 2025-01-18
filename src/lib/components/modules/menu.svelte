@@ -10,13 +10,13 @@
 
 	const menuItems: MenuItem[] = [
 		{
-			name: 'Dashboard',
+			name: 'Panel',
 			href: '/',
 			icon: Home
 		},
 		{
-			name: 'Tenant',
-			href: '/tenant',
+			name: 'Bayiler',
+			href: '/tenants',
 			icon: Library
 		}
 	];

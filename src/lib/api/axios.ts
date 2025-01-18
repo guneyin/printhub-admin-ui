@@ -1,25 +1,22 @@
-import axios, { type AxiosInstance, type CreateAxiosDefaults } from 'axios';
+import axios, { AxiosHeaders, type AxiosInstance } from 'axios';
 import { BASE_API_URI } from '@/constants';
+import { session } from '@/state/session.svelte';
 
-function config(): CreateAxiosDefaults {
-	return {
+export default function client(): AxiosInstance {
+	return axios.create({
 		baseURL: BASE_API_URI,
 		timeout: 10000,
 		withCredentials: true,
 		maxRedirects: 0,
+		headers: getSessionHeader(),
 		validateStatus: status => {
-			return status >= 200 && status < 400;
+			return status >= 200 && status <= 399;
 		}
-	}
+	});
 }
 
-export default function client(locals?: App.Locals): AxiosInstance {
-	let instance = axios.create(config());
-
-	if (locals) {
-		instance.defaults.headers.common['cookie'] = 'session_id=' + locals.session_id as string;
-	}
-
-
-	return instance;
+function getSessionHeader(): AxiosHeaders {
+	let headers = new AxiosHeaders()
+	headers.set('cookie', 'session_id=' + session.id)
+	return headers;
 }

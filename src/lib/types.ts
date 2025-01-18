@@ -23,10 +23,11 @@ export enum UserRole {
 export const DefaultUserRole = UserRole.admin;
 
 export interface Tenant {
-    uuid: string;
-    email: string;
+    uuid?: string;
+    email?: string;
     name?: string;
     address?: string;
+    phone?: string;
     logo?: string;
 }
 

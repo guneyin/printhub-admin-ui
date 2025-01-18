@@ -1,5 +1,6 @@
+import { session } from '@/state/session.svelte';
 import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ cookies, locals }) => {
-    return { isAuthenticated: !!locals.session_id };
+export const load: LayoutServerLoad = async ({ locals }) => {
+    return { isAuthenticated: session.isValid() };
 };

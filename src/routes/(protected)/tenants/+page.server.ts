@@ -1,10 +1,13 @@
 import type { PageServerLoad } from './$types';
-import { me } from '@/api/user';
+import { tenantList } from '@/api/admin';
 import { apierror } from '@/error';
 
 export const load: PageServerLoad = async () => {
-	const user = await me()
+	const tenants = await tenantList()
 		.catch(e => apierror(e));
 
-	return { user };
-}
+	return {
+		tenants
+	};
+};
+

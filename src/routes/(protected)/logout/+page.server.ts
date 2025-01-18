@@ -2,13 +2,14 @@ import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { logout } from '@/api/auth';
 import { apierror } from '@/error';
+import { session } from '@/state/session.svelte';
 
-export const load: PageServerLoad = async ({ locals, cookies }) => {
+export const load: PageServerLoad = async ({ cookies }) => {
     await logout()
       .catch(e => apierror(e));
 
     cookies.delete('session_id', {path: '/'});
-    locals.session_id = "";
+    session.terminate();
 
     throw redirect(302, "/");
 }
