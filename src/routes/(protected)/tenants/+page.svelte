@@ -30,7 +30,7 @@
 		</Tabs.List>
 
 		<div class="ml-auto flex items-center gap-2">
-			<Button href="/tenants/create" size="sm" variant="default" class="h-7 gap-1">
+			<Button href="/tenants/_/create" size="sm" variant="default" class="h-7 gap-1">
 				<CirclePlus class="h-3.5 w-3.5" />
 				<span class="sr-only sm:not-sr-only sm:whitespace-nowrap"> Yeni </span>
 			</Button>
@@ -57,6 +57,7 @@
 							<Table.Row>
 								<Table.Cell class="hidden sm:flex">1</Table.Cell>
 								<Table.Cell class="hidden sm:table-cell">
+									<a href={`/tenants/${tenant.uuid}/view`}>
 									<div class="flex items-center">
 										<Avatar.Root>
 											<Avatar.Image id="logo" src={tenant.logo} alt={tenant.name} />
@@ -66,6 +67,7 @@
 											<p class="text-sm font-medium leading-none">{tenant.name}</p>
 										</div>
 									</div>
+									</a>
 								</Table.Cell>
 								<Table.Cell>
 									<Badge variant="outline">{tenant.email}</Badge>
@@ -73,10 +75,10 @@
 								<Table.Cell>{tenant.address}</Table.Cell>
 
 								<Table.Cell>
-									<Button variant="outline" size="icon" href={'/tenants/view/'+tenant.uuid}>
+									<Button variant="outline" size="icon" href={`/tenants/${tenant.uuid}/edit`}>
 										<Pencil class="h-4 w-4" />
 									</Button>
-									<Button variant="outline" size="icon">
+									<Button variant="outline" size="icon" href={`/tenants/${tenant.uuid}/delete`}>
 										<Trash2 class="h-4 w-4 " color="#e65656" />
 									</Button>
 								</Table.Cell>

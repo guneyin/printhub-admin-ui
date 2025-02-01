@@ -13,42 +13,43 @@
 
 	let {
 		open = $bindable(false),
-		tenantId,
-		tenantForm
+		data
 	}: {
 		open: boolean;
-		tenantId: string;
-		tenantForm: SuperValidated<Infer<TenantFormSchema>>;
+		data: { form: SuperValidated<Infer<TenantFormSchema>> };
 	} = $props();
 
 
-	const form = superForm(tenantForm, {
+	// const form = superForm(tenantForm, {
+	// 	validators: zodClient(tenantFormSchema),
+	// 	onError({ result }) {
+	// 		toast.error(result.error.message);
+	// 	}
+	// });
+	const form = superForm(data.form, {
 		validators: zodClient(tenantFormSchema),
-		onError({ result }) {
-			toast.error(result.error.message);
-		}
 	});
 
-	let { form: formData, message, enhance } = form;	
+	const { form: formData, enhance } = form;
 
 	let title = $derived($formData.name ? `Düzenle: ${$formData.name}` : 'Yeni Ekle');
 	let desc = $derived($formData.uuid ? $formData.uuid : '');
 
-	$effect(() => {
-		fetchTenant(tenantId);
-	});
+	// $effect(() => {
+	// 	fetchTenant(tenantId);
+	// });
 
-	async function fetchTenant(id: string) {
-		if (id !== 'new') {
-			const response = await fetch('/tenant?id=' + id);
-			const data = await response.json();
-			if (!response.ok) {
-				return toast.error(response.statusText);
-			}
-
-			form.form.set(data);
-		}  else { form.reset() }
-	}
+	// async function fetchTenant(id: string) {
+	// 	if (id !== 'new') {
+	// 		const response = await fetch('/tenant?id=' + id);
+	// 		const data = await response.json();
+	// 		if (!response.ok) {
+	// 			return toast.error(response.statusText);
+	// 		}
+	//
+	// 		form.form.set(data);
+	// 	}  else { form.reset() }
+	// }
 </script>
 
 <!-- <SuperDebug data={form} /> -->
@@ -103,7 +104,7 @@
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
-			{#if $message}<h3>{$message}</h3>{/if}
+
 			<Form.Button type="submit">Submit</Form.Button>
 
 		</form>

@@ -7,7 +7,7 @@
 <div class="hidden flex-col md:flex">
 	<div class="border-b">
 		<div class="flex h-16 items-center px-4">
-			<TenantMainNav class="mx-6" path={data.path} />
+			<TenantMainNav class="mx-6" {data}/>
 		</div>
 	</div>
 

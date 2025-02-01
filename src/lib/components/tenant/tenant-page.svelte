@@ -1,24 +1,21 @@
 <script lang="ts">
+	import TenantForm from "../forms/tenant/tenant-form.svelte";
 	import Activity from "lucide-svelte/icons/activity";
 	import CreditCard from "lucide-svelte/icons/credit-card";
 	import DollarSign from "lucide-svelte/icons/dollar-sign";
 	import Download from "lucide-svelte/icons/download";
 	import Users from "lucide-svelte/icons/users";
-	import {
-		TenantMainNav,
-		//Overview,
-		//RecentSales,
-		//Search,
-		//TeamSwitcher,
-		// UserNav,
-	} from "./index.js";
+
 	import { Button } from "$lib/components/ui/button/index.js";
 	import * as Card from "$lib/components/ui/card/index.js";
 	import * as Tabs from "$lib/components/ui/tabs/index.js";
 
 	const { data } = $props();
 	const tenant = data.tenant;
+	const showForm = $derived(["create", "edit"].includes(data.command)) as boolean;
 </script>
+
+	<TenantForm open={showForm} {data}/>
 
 	<div class="flex-1 space-y-4 p-8 pt-6">
 		<div class="flex items-center justify-between space-y-2">
