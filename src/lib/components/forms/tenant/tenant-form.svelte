@@ -19,14 +19,8 @@
 		data: { form: SuperValidated<Infer<TenantFormSchema>> };
 	} = $props();
 
-
-	// const form = superForm(tenantForm, {
-	// 	validators: zodClient(tenantFormSchema),
-	// 	onError({ result }) {
-	// 		toast.error(result.error.message);
-	// 	}
-	// });
 	const form = superForm(data.form, {
+		resetForm: false,
 		validators: zodClient(tenantFormSchema),
 	});
 
@@ -34,28 +28,11 @@
 
 	let title = $derived($formData.name ? `Düzenle: ${$formData.name}` : 'Yeni Ekle');
 	let desc = $derived($formData.uuid ? $formData.uuid : '');
-
-	// $effect(() => {
-	// 	fetchTenant(tenantId);
-	// });
-
-	// async function fetchTenant(id: string) {
-	// 	if (id !== 'new') {
-	// 		const response = await fetch('/tenant?id=' + id);
-	// 		const data = await response.json();
-	// 		if (!response.ok) {
-	// 			return toast.error(response.statusText);
-	// 		}
-	//
-	// 		form.form.set(data);
-	// 	}  else { form.reset() }
-	// }
 </script>
-
-<!-- <SuperDebug data={form} /> -->
 
 <Dialog.Root bind:open>
 	<Dialog.Content class="sm:max-w-[425px]">
+		<SuperDebug data={$formData} />
 		<Dialog.Header>
 			<Dialog.Title>{title}</Dialog.Title>
 			<Dialog.Description>{desc}</Dialog.Description>
@@ -105,7 +82,12 @@
 				<Form.FieldErrors />
 			</Form.Field>
 
-			<Form.Button type="submit">Submit</Form.Button>
+			<div class="space-between flex items-center mt-4">
+				<Form.Button variant="destructive">Delete</Form.Button>
+				<div class="ml-auto">
+				<Form.Button type="submit">Submit</Form.Button>
+				</div>
+			</div>
 
 		</form>
 	</Dialog.Content>
